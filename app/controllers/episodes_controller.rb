@@ -1,6 +1,6 @@
 class EpisodesController < ApplicationController
 	before_action :find_podcast
-	before_action :find_episode, only: [:show]
+	before_action :find_episode, only: [:show, :edit, :update, :destroy]
 
 	def new
 		@episode = @podcast.episodes.new
@@ -20,6 +20,20 @@ class EpisodesController < ApplicationController
 	end
 
 	def edit
+
+	end
+
+	def update
+		if @episode.update episode_params
+			redirect_to podcast_episode_path(@podcast, @episode), notice: "Episode was successfully updated!"
+		else
+			render 'edit'
+		end
+	end
+
+	def destroy
+		@episode.destroy
+		redirect_to root_path
 	end
 
 	private
